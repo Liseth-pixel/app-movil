@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 import { supabase } from '../lib/supabase';
 
 export default function InicioScreen({ sesion }) {
@@ -55,7 +56,7 @@ export default function InicioScreen({ sesion }) {
     );
   }
 
-  // Extraemos el carnet o identificador limpio del correo o metadatos
+  // Extraemos el identificador o carnet para el código QR
   const identificador = perfil?.carnet || sesion.user.email.split('@')[0];
 
   return (
@@ -69,12 +70,16 @@ export default function InicioScreen({ sesion }) {
         </Text>
       </View>
 
-      {/* Tarjeta con el Código QR (Simulado visualmente o listo para librería QR) */}
+      {/* Tarjeta con el Código QR Real */}
       <View style={styles.cardQR}>
         <Text style={styles.cardTitle}>Tu Código QR de Asistencia</Text>
         <View style={styles.qrBox}>
-          {/* Aquí puedes integrar luego una librería de QR si lo deseas */}
-          <Text style={styles.qrTextoSimulado}>[ QR: {identificador} ]</Text>
+          <QRCode
+            value={identificador}
+            size={150}
+            color="#1E3A8A"
+            backgroundColor="#FFFFFF"
+          />
         </View>
         <Text style={styles.qrInstruccion}>
           Muestra este código al docente para registrar tu asistencia.
@@ -136,58 +141,49 @@ const styles = StyleSheet.create({
     color: '#64748B',
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 15,
     alignItems: 'center',
   },
   titulo: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '800',
     color: '#1E3A8A',
   },
   subtitulo: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#64748B',
-    marginBottom: 5,
+    marginBottom: 3,
   },
   bienvenida: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: '#334155',
   },
   cardQR: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
-    padding: 20,
+    padding: 16,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   cardTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#1E3A8A',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   qrBox: {
-    width: 160,
-    height: 160,
-    backgroundColor: '#F1F5F9',
+    padding: 10,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: '#CBD5E1',
-    borderStyle: 'dashed',
-    marginBottom: 12,
-  },
-  qrTextoSimulado: {
-    fontWeight: 'bold',
-    color: '#475569',
-    textAlign: 'center',
+    marginBottom: 8,
   },
   qrInstruccion: {
     fontSize: 12,
@@ -199,7 +195,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
@@ -207,10 +203,10 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   seccionTitulo: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#1E3A8A',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   sinAsistencias: {
     color: '#94A3B8',
@@ -218,29 +214,29 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   itemAsistencia: {
-    paddingVertical: 10,
+    paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#F1F5F9',
   },
   itemMateria: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
     color: '#1E293B',
   },
   itemFecha: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#64748B',
     marginTop: 2,
   },
   botonCerrar: {
     backgroundColor: '#DC2626',
     borderRadius: 12,
-    paddingVertical: 14,
+    paddingVertical: 12,
     alignItems: 'center',
   },
   textoBotonCerrar: {
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
   },
 });
